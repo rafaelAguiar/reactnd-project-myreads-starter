@@ -16,7 +16,6 @@ class BooksApp extends Component {
   }
 
   onChangeShelfBook = (bookID, shelf) => {
-    console.log('onChangeShelfBook') 
     let book = this.state.books.filter((book)=>{
       return book.id===bookID
     })
@@ -34,7 +33,6 @@ class BooksApp extends Component {
   }
 
   updateBooksByShelf(booksByShelf) {   
-    console.log('updateBooksByShelf') 
     Object.keys(booksByShelf).forEach(shelf=>{
       booksByShelf[shelf] = booksByShelf[shelf].map(bookID=>{
         let book = this.state.books.filter(book=>{
@@ -69,7 +67,7 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path='/search' render={()=>(
-          <SearchBook onRefresh={this.onRefresh}/>
+          <SearchBook onRefresh={this.onRefresh} booksOnShelf={this.state.books}/>
         )}/>
           
         <Route exact path='/' render={()=>(

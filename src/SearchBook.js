@@ -24,8 +24,19 @@ class SearchBook extends Component {
         BooksAPI.search(query).then((books)=>{
           if (books.error) {
             this.setState({books: []})    
+            
           } else {
-            this.setState({books})
+            let newbooks = books.map((book)=>{
+              let bookOnShelf = this.props.booksOnShelf.filter((booksOnShelf)=>{
+                return booksOnShelf.id===book.id
+              })[0]
+
+              if (bookOnShelf)
+                return {...book, shelf:bookOnShelf.shelf}
+              else 
+                return {...book}
+            })
+            this.setState({books: newbooks})
           }
         })
       },1000)
@@ -40,7 +51,17 @@ class SearchBook extends Component {
       return book.id===bookID
     })
 
-    BooksAPI.update(book[0], shelf);
+    BooksAPI.update(book[0], shelf).then((booksByShelf)=>{
+      let newbooks = this.state.books.map(book => {
+        if (book.id === bookID) {
+          return {...book, shelf:shelf}
+        } else {
+          return {...book}
+        }
+      })
+
+      this.setState({books: newbooks})
+    });
   }
 
   render() {
@@ -79,7 +100,8 @@ class SearchBook extends Component {
 }
 
 SearchBook.propTypes = {
-  onRefresh: PropTypes.func.isRequired
+  onRefresh: PropTypes.func.isRequired,
+  booksOnShelf: PropTypes.array.isRequired
 }
 
 export default SearchBook
