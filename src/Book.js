@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 const Book = props => {
-  const {id, title, authors, image, shelf, onChangeShelf} = props
-
+  const {id, title, authors, image, shelf, onChangeShelf, isScreenShelf} = props
+  
   return(
       <div className="book">
         <div className="book-top">
@@ -17,7 +17,7 @@ const Book = props => {
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead" >Want to Read</option>
               <option value="read">Read</option>
-              <option value="none">None</option>
+              {isScreenShelf && (<option value="none">None</option>)}
             </select>
           </div>
         </div>

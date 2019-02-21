@@ -7,28 +7,34 @@ import './App.css';
 
 class BooksApp extends Component {
   
-  componentDidMount() {
-    this.listAllBooks()
+  componentWillMount() {
+    this.listBooksByShelf()
+  }
+
+  onRefresh = () => {
+    this.listBooksByShelf()
   }
 
   onChangeShelfBook = (bookID, shelf) => {
+    console.log('onChangeShelfBook') 
     let book = this.state.books.filter((book)=>{
       return book.id===bookID
     })
 
     BooksAPI.update(book[0], shelf).then((booksByShelf)=>{
-      this.getBooksToShelf(booksByShelf)
+      this.updateBooksByShelf(booksByShelf)
     });
   }
 
-  listAllBooks() {
+  listBooksByShelf() {
     BooksAPI.getAll().then((books) => {
         this.setState(()=>({books}))
         this.putOnBooksInShelf()
     });
   }
 
-  getBooksToShelf(booksByShelf) {    
+  updateBooksByShelf(booksByShelf) {   
+    console.log('updateBooksByShelf') 
     Object.keys(booksByShelf).forEach(shelf=>{
       booksByShelf[shelf] = booksByShelf[shelf].map(bookID=>{
         let book = this.state.books.filter(book=>{
@@ -63,7 +69,7 @@ class BooksApp extends Component {
     return (
       <div className="app">
         <Route exact path='/search' render={()=>(
-          <SearchBook />
+          <SearchBook onRefresh={this.onRefresh}/>
         )}/>
           
         <Route exact path='/' render={()=>(

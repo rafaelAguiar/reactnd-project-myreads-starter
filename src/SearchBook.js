@@ -2,11 +2,16 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import Book from './Book';
 import * as BooksAPI from './BooksAPI';
+import PropTypes from 'prop-types'
 
 class SearchBook extends Component {
 
   state = {
     books: []
+  }
+
+  componentWillUnmount() {
+    this.props.onRefresh()
   }
 
   onSearchBooks = (query) => {
@@ -21,7 +26,6 @@ class SearchBook extends Component {
     } else {
       this.setState({books: []})
     }
-    
   }
 
   onChangeShelfBook = (bookID, shelf) => {
@@ -29,9 +33,7 @@ class SearchBook extends Component {
       return book.id===bookID
     })
 
-    BooksAPI.update(book[0], shelf).then((books)=>{
-      console.log(books)
-    });
+    BooksAPI.update(book[0], shelf);
   }
 
   render() {
@@ -58,6 +60,7 @@ class SearchBook extends Component {
                     title={book.title} 
                     authors={book.authors}
                     image={book.imageLinks ? book.imageLinks.thumbnail : ''}
+                    isScreenShelf={false}
                     onChangeShelf={this.onChangeShelfBook}/>
               </li>
             ))}
@@ -66,6 +69,10 @@ class SearchBook extends Component {
       </div>
     )
   }
+}
+
+SearchBook.propTypes = {
+  onRefresh: PropTypes.func.isRequired
 }
 
 export default SearchBook

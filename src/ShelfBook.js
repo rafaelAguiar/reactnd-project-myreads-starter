@@ -23,6 +23,7 @@ const ShelfBook = props => {
                       <li key={book.id}>
                         <Book id={book.id} 
                             key={book.id}
+                            isScreenShelf={true}
                             shelf={book.shelf}
                             title={book.title} 
                             authors={book.authors}
