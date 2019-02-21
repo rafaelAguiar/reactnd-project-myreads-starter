@@ -28,7 +28,7 @@ class SearchBook extends Component {
             this.setState({books})
           }
         })
-      },1500)
+      },1000)
       
     } else {
       this.setState({books: []})
@@ -59,7 +59,7 @@ class SearchBook extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.books.map((book)=>(
+            {this.state.books.length > 0 ? this.state.books.map((book)=>(
               <li key={book.id}>
                 <Book id={book.id} 
                     key={book.id}
@@ -70,7 +70,7 @@ class SearchBook extends Component {
                     isScreenShelf={false}
                     onChangeShelf={this.onChangeShelfBook}/>
               </li>
-            ))}
+            )) : (<p>No books to show.</p>)}
           </ol>
         </div>
       </div>

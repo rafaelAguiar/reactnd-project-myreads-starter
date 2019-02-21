@@ -18,7 +18,7 @@ const ShelfBook = props => {
               <h2 className="bookshelf-title">{shelf}</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                  {booksByShelf[shelf] ? 
+                  {booksByShelf[shelf].length > 0 ? 
                     booksByShelf[shelf].map((book)=>(
                       <li key={book.id}>
                         <Book id={book.id} 
@@ -29,7 +29,7 @@ const ShelfBook = props => {
                             authors={book.authors}
                             image={book.imageLinks ? book.imageLinks.thumbnail : ''}
                             onChangeShelf={onChangeShelfBook}/>
-                      </li> )) : ''}
+                      </li> )) : (<p>No books to show.</p>)}
                 </ol>
               </div>
             </div>
@@ -39,7 +39,6 @@ const ShelfBook = props => {
     </div>
   )
 }
-
 
 ShelfBook.propTypes = {
   shelfs: PropTypes.array.isRequired,
