@@ -15,14 +15,21 @@ class SearchBook extends Component {
   }
 
   onSearchBooks = (query) => {
+    if (this.find) {
+      clearTimeout(this.find);
+    }
+
     if (query) {
-      BooksAPI.search(query).then((books)=>{
-        if (books.error) {
-          this.setState({books: []})    
-        } else {
-          this.setState({books})
-        }
-      })
+      this.find = setTimeout(() => {
+        BooksAPI.search(query).then((books)=>{
+          if (books.error) {
+            this.setState({books: []})    
+          } else {
+            this.setState({books})
+          }
+        })
+      },1500)
+      
     } else {
       this.setState({books: []})
     }
